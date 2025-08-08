@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Mindbreak</title>
+<style>
+  html, body { margin:0; height:100%; background:#000; overflow:hidden; }
+  video {
+    position:fixed; inset:0; width:100%; height:100%;
+    object-fit:cover; background:#000;
+  }
+  .overlay {
+    position:fixed; inset:0; display:grid; place-items:center; pointer-events:none;
+  }
+  @keyframes pulse {
+    0%,100% { filter: drop-shadow(0 0 6px rgba(0,255,240,.7)) drop-shadow(0 0 16px rgba(0,255,240,.4)); }
+    50%     { filter: drop-shadow(0 0 14px rgba(0,255,240,.95)) drop-shadow(0 0 28px rgba(0,255,240,.6)); }
+  }
+  .title { width:min(92vw,1200px); animation:pulse 3s ease-in-out infinite; }
+  /* Mute button */
+  .mute-btn {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    width: 40px;
+    height: 40px;
+    background: rgba(255,255,255,0.7);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: opacity 0.3s ease;
+    z-index: 10;
+  }
+  .mute-btn:hover { opacity: 1; background: rgba(255,255,255,0.9); }
+  .mute-btn svg {
+    width: 24px;
+    height: 24px;
+    fill: #000;
+  }
+</style>
+</head>
+<body>
+  <video id="bgVideo" autoplay loop muted playsinline>
+    <source src="Mindbreak.mp4" type="video/mp4">
+    Your browser does not support the video tag.
+  </video>
+
+  <div class="overlay" aria-hidden="true">
+    <svg class="title" viewBox="0 0 1200 220" preserveAspectRatio="xMidYMid meet">
+      <text x="50%" y="50%" dominant-baseline="middle" text-anchor="middle"
+            fill="transparent" stroke="#00fff0" stroke-width="3"
+            paint-order="stroke" font-size="120" font-family="Arial, Helvetica, sans-serif" letter-spacing="2">
+        Mindbreak Consultancy
+      </text>
+    </svg>
+  </div>
+
+  <!-- Mute/Unmute Button -->
+  <div class="mute-btn" id="muteBtn" title="Toggle sound">
+    <!-- Speaker with slash (muted) -->
+    <svg id="iconMuted" viewBox="0 0 24 24">
+      <path d="M16.5 12c0-1.77-1.02-3.29-2.5-4.03v8.06c1.48-.74 2.5-2.26 2.5-4.03zM19 12c0 2.54-1.53 4.74-3.75 5.64l1.46 1.46C18.6 17.82 20 15.07 20 12s-1.4-5.82-3.29-7.1l-1.46 1.46C17.47 7.26 19 9.46 19 12zM3 9v6h4l5 5V4L7 9H3z"/>
+    </svg>
+    <!-- Speaker (unmuted) hidden initially -->
+    <svg id="iconUnmuted" viewBox="0 0 24 24" style="display:none">
+      <path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.06c1.48-.74 2.5-2.26 2.5-4.03z"/>
+    </svg>
+  </div>
+
+<script>
+  const video = document.getElementById('bgVideo');
+  const muteBtn = document.getElementById('muteBtn');
+  const iconMuted = document.getElementById('iconMuted');
+  const iconUnmuted = document.getElementById('iconUnmuted');
+
+  muteBtn.addEventListener('click', () => {
+    video.muted = !video.muted;
+    if (video.muted) {
+      iconMuted.style.display = 'block';
+      iconUnmuted.style.display = 'none';
+    } else {
+      iconMuted.style.display = 'none';
+      iconUnmuted.style.display = 'block';
+    }
+  });
+</script>
+</body>
+</html>
